@@ -1,22 +1,30 @@
 import React, { useState, createRef, useEffect } from "react";
+import { useRandomQuote } from "./hooks/useRandomQuote";
 import "./App.css";
-
+import "@jh3y/ep/";
 import Input from "./components/Input";
 function App() {
-  const [sample] = useState(
+  const {data, currentQuote } = useRandomQuote();
+  console.log(currentQuote)
+  const [sample, setSample] = useState(
     "Give me reasons we should be complete. You should be with him, I can't compete. You looked at me like I was someone else, oh well, can't you see? I don't wanna slow dance in the dark."
   );
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
   const myRef = createRef();
   const [input, setInput] = useState("");
+  const [lastMatch, setLastMatch] = useState("");
+
+  useEffect(() => {
+    setSample(currentQuote)
+    return () => {
+     
+    }
+  }, [currentQuote])
   return (
     <div>
       <h1 ref={myRef}>{sample}</h1>
-      <textarea
-        name=""
-        id=""
-        cols="30"
-        rows="10"
+      <input
+        style={{ width: "100%", height: "50px", fontSize: "1.5rem" }}
         placeholder="Type of the above text here when the racer begins"
         value={input}
         onChange={(e) => {
@@ -28,19 +36,23 @@ function App() {
           setInput(e.target.value);
           let match = sample.match(input);
           if (match !== null) {
+            setLastMatch(match[0]);
             let remaining = sample.slice(match[0].length + 1, sample.length);
-
-            let currentProgress = Math.round(match[0]?.length / sample.length * 100);
+            let currentProgress = Math.round(
+              (match[0]?.length / sample.length) * 100
+            );
             setProgress(currentProgress);
             myRef.current.innerHTML =
-              `<span class='red'>${e.target.value}</span>` + remaining;
+              `<span class='green'>${e.target.value}</span>` + remaining;
           } else {
-            myRef.current.textContent = sample;
+            myRef.current.innerHTML =
+              `<span class='red'>${
+                lastMatch + sample.slice(lastMatch.length, input.length)
+              }</span>` + sample.slice(input.length, sample.length);
           }
         }}
-      ></textarea>
-      {progress}%
-      
+      />
+      {progress}%<progress value={progress} max="100"></progress>
     </div>
   );
 }
