@@ -11,7 +11,7 @@ useEffect(async() => {
       );
       const data = await response.json();
       setData({ data });
-      setCurrentQuote(data[Math.floor(Math.random() * data.length)].text)
+      setCurrentQuote(data[Math.floor(Math.random() * data.length)].text.trim())
     return () => {
     }
 }, [])

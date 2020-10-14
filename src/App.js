@@ -4,8 +4,7 @@ import "./App.css";
 import "@jh3y/ep/";
 import Input from "./components/Input";
 function App() {
-  const {data, currentQuote } = useRandomQuote();
-  console.log(currentQuote)
+  const { data, currentQuote } = useRandomQuote();
   const [sample, setSample] = useState(
     "Give me reasons we should be complete. You should be with him, I can't compete. You looked at me like I was someone else, oh well, can't you see? I don't wanna slow dance in the dark."
   );
@@ -15,11 +14,9 @@ function App() {
   const [lastMatch, setLastMatch] = useState("");
 
   useEffect(() => {
-    setSample(currentQuote)
-    return () => {
-     
-    }
-  }, [currentQuote])
+    setSample(currentQuote);
+    return () => {};
+  }, [currentQuote]);
   return (
     <div>
       <h1 ref={myRef}>{sample}</h1>
