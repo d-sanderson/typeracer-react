@@ -15,12 +15,16 @@ function App() {
 
   useEffect(() => {
     setSample(currentQuote);
+    if(progress > "97") {
+      setProgress('complete')
+    }
     return () => {};
   }, [currentQuote]);
   return (
     <div>
       <h1 ref={myRef}>{sample}</h1>
       <input
+      className="display"
         style={{ width: "100%", height: "50px", fontSize: "1.5rem" }}
         placeholder="Type of the above text here when the racer begins"
         value={input}
@@ -36,7 +40,7 @@ function App() {
             setLastMatch(match[0]);
             let remaining = sample.slice(match[0].length + 1, sample.length);
             let currentProgress = Math.round(
-              (match[0]?.length / sample.length) * 100
+              (e.target.value.length / sample.length) * 100
             );
             setProgress(currentProgress);
             myRef.current.innerHTML =
@@ -50,6 +54,7 @@ function App() {
         }}
       />
       {progress}%<progress value={progress} max="100"></progress>
+      {progress == 100 && "COMPLETE"}
     </div>
   );
 }
